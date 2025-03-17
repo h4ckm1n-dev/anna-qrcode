@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anna QRcode Generator</title>
+    
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Style personnalisé -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- QR Code library - Essayer plusieurs sources -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Si la première source échoue, essayer la version locale
+        window.addEventListener('load', function() {
+            if (typeof QRCode === 'undefined') {
+                console.log('Chargement de la version locale de QRCode.js');
+                var script = document.createElement('script');
+                script.src = 'qrcode.min.js';
+                document.head.appendChild(script);
+            }
+        });
+    </script>
+    
+    <!-- Solution de secours minimale si tout échoue -->
+    <script src="backup-qrcode.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-qrcode"></i> Anna QRcode Generator</h1>
+            <p>Créez facilement vos codes QR et téléchargez-les</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <label for="url-input"><i class="fas fa-link"></i> Entrez une URL ou un texte :</label>
+                <input type="text" id="url-input" placeholder="https://exemple.com" autofocus>
+                <div class="button-container">
+                    <button id="generate-btn"><i class="fas fa-magic"></i> Générer QR Code</button>
+                </div>
+            </div>
+
+            <div class="qrcode-section">
+                <div id="qrcode-container">
+                    <div id="qrcode"></div>
+                </div>
+                <div class="download-section">
+                    <div class="button-container">
+                        <button id="download-btn" disabled><i class="fas fa-download"></i> Télécharger QR Code</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Message d'erreur -->
+            <div id="error-message" style="display: none;"></div>
+        </main>
+
+        <footer>
+            <p class="credits">Créé par Julien Mayer &copy; 2025</p>
+        </footer>
+    </div>
+
+    <!-- Chargement alternatif de QRCode.js -->
+    <script>
+        // Vérifier si la bibliothèque QRCode n'est pas chargée
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (typeof QRCode === 'undefined') {
+                    console.error('Erreur: Tentative de chargement alternatif de la bibliothèque QRCode');
+                    // Essayer de charger depuis un autre CDN
+                    var script = document.createElement('script');
+                    script.src = 'https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js';
+                    script.onload = function() {
+                        console.log('Bibliothèque QRCode chargée depuis le CDN alternatif');
+                    };
+                    script.onerror = function() {
+                        document.getElementById('error-message').textContent = 'Impossible de charger la bibliothèque QRCode. Vérifiez votre connexion Internet.';
+                        document.getElementById('error-message').style.display = 'block';
+                    };
+                    document.head.appendChild(script);
+                }
+                
+                // Vérifier si l'objet CorrectLevel existe
+                if (typeof QRCode !== 'undefined' && typeof QRCode.CorrectLevel === 'undefined') {
+                    console.warn('L\'objet QRCode.CorrectLevel n\'existe pas, création d\'un objet de compatibilité');
+                    QRCode.CorrectLevel = {
+                        L: 1,
+                        M: 0,
+                        Q: 3,
+                        H: 2
+                    };
+                }
+            }, 1000); // Attendre 1 seconde pour s'assurer que les scripts ont eu le temps de charger
+        });
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
