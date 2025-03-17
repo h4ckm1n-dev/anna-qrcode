@@ -1,0 +1,404 @@
+:root {
+    /* Thème clair (par défaut) */
+    --primary-color: #5D5FEF;
+    --primary-light: #7879F1;
+    --primary-dark: #4849C7;
+    --bg-color: #f7f7f9;
+    --bg-card: #ffffff;
+    --text-color: #333;
+    --text-light: #7f8c8d;
+    --text-muted: #95a5a6;
+    --border-color: #e0e0e0;
+    --input-bg: #ffffff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.08);
+    --error-bg: #feebeb;
+    --error-color: #e74c3c;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+    --input-focus-glow: rgba(93, 95, 239, 0.15);
+    --success-color: #2ecc71;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Thème sombre */
+        --primary-color: #7879F1;
+        --primary-light: #9798F5;
+        --primary-dark: #4849C7;
+        --bg-color: #1a1a2e;
+        --bg-card: #222244;
+        --text-color: #f1f1f1;
+        --text-light: #ccd1d1;
+        --text-muted: #b3b9b9;
+        --border-color: #30304d;
+        --input-bg: #2c2c4a;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.3);
+        --error-bg: #482c2c;
+        --error-color: #ff7675;
+        --input-focus-glow: rgba(120, 121, 241, 0.25);
+        --success-color: #00b894;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+    text-shadow: 0 2px 10px rgba(93, 95, 239, 0.1);
+}
+
+header h1 i {
+    margin-right: 10px;
+    color: var(--primary-light);
+    transition: color 0.3s ease;
+}
+
+header p {
+    color: var(--text-light);
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin: 0 auto;
+    transition: color 0.3s ease;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.input-section {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    transition: var(--transition);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.input-section:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.input-section label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 1.05rem;
+    transition: color 0.3s ease;
+    text-align: left;
+}
+
+.input-section label i {
+    color: var(--primary-color);
+    margin-right: 8px;
+    transition: color 0.3s ease;
+}
+
+.input-section input {
+    width: 100%;
+    padding: 15px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: var(--transition);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.input-section input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--input-focus-glow);
+}
+
+.input-section input.input-focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--input-focus-glow);
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    min-width: 200px;
+}
+
+button i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(93, 95, 239, 0.2);
+}
+
+button:hover i {
+    transform: scale(1.1);
+}
+
+button:disabled {
+    background-color: var(--border-color);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+button:disabled:hover i {
+    transform: none;
+}
+
+/* Animation pour le bouton */
+.btn-pulse {
+    animation: buttonPulse 0.3s ease;
+}
+
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.97); }
+    100% { transform: scale(1); }
+}
+
+.qrcode-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
+#qrcode-container {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    min-height: 280px;
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+#qrcode-container:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+/* Animation pour la génération */
+#qrcode-container.generating {
+    animation: containerPulse 0.5s ease;
+}
+
+@keyframes containerPulse {
+    0% { transform: scale(0.98); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#qrcode {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#qrcode img, #qrcode canvas {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.5s ease;
+    background-color: white; /* Toujours garder le QR code sur fond blanc pour une meilleure lisibilité */
+    padding: 10px;
+}
+
+/* Animation pour l'apparition */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loader pour la génération */
+.qr-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: var(--primary-color);
+}
+
+.qr-loader i {
+    font-size: 2rem;
+}
+
+.qr-loader span {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Style pour l'affichage de l'URL */
+.qr-url-display {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: fadeIn 0.5s ease;
+}
+
+.download-section {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+#download-btn {
+    background-color: var(--primary-light);
+}
+
+#download-btn:hover {
+    background-color: var(--primary-color);
+}
+
+/* Message de succès */
+.success-message {
+    animation: fadeInUp 0.3s ease, fadeOut 0.3s ease 2.7s;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+}
+
+@keyframes fadeInUp {
+    from { transform: translate(-50%, 20px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+#error-message {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: var(--error-bg);
+    color: var(--error-color);
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    border-left: 4px solid var(--error-color);
+    animation: fadeIn 0.3s ease;
+    max-width: 600px;
+    width: 100%;
+}
+
+footer {
+    text-align: center;
+    margin-top: auto;
+    padding: 20px 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.credits {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--primary-light);
+    transition: color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .input-section, #qrcode-container {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .input-section, #qrcode-container {
+        padding: 20px 15px;
+    }
+    
+    button {
+        padding: 12px 20px;
+        font-size: 15px;
+        width: 100%;
+    }
+}
