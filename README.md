@@ -38,4 +38,4 @@ Ce projet est sous licence MIT.
 
 ---
 
-Créé avec ❤️ par Anna
+Créé avec pour Anna
