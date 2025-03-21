@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anna QRcode Generator</title>
     
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    
     <!-- Polices Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,6 +44,12 @@
             <div class="input-section">
                 <label for="url-input"><i class="fas fa-link"></i> Entrez une URL ou un texte :</label>
                 <input type="text" id="url-input" placeholder="https://exemple.com" autofocus>
+                <div class="logo-input-container">
+                    <label for="logo-input"><i class="fas fa-image"></i> Ajouter un logo (optionnel)</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="logo-input" accept="image/*">
+                    </div>
+                </div>
                 <div class="button-container">
                     <button id="generate-btn"><i class="fas fa-magic"></i> Générer QR Code</button>
                 </div>
@@ -108,4 +111,4 @@
     
     <script src="script.js"></script>
 </body>
-</html>
+</html> 

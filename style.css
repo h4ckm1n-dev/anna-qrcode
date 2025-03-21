@@ -67,11 +67,13 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 header {
     text-align: center;
     margin-bottom: 50px;
+    width: 100%;
 }
 
 header h1 {
@@ -103,6 +105,7 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 600px;
 }
 
 .input-section {
@@ -113,8 +116,9 @@ main {
     margin-bottom: 40px;
     transition: var(--transition);
     width: 100%;
-    max-width: 600px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .input-section:hover {
@@ -128,7 +132,8 @@ main {
     color: var(--text-color);
     font-size: 1.05rem;
     transition: color 0.3s ease;
-    text-align: left;
+    text-align: center;
+    width: 100%;
 }
 
 .input-section label i {
@@ -137,8 +142,9 @@ main {
     transition: color 0.3s ease;
 }
 
-.input-section input {
+.input-section input[type="text"] {
     width: 100%;
+    max-width: 400px;
     padding: 15px;
     border: 1.5px solid var(--border-color);
     border-radius: 8px;
@@ -147,6 +153,7 @@ main {
     transition: var(--transition);
     background-color: var(--input-bg);
     color: var(--text-color);
+    text-align: center;
 }
 
 .input-section input:focus {
@@ -160,10 +167,95 @@ main {
     box-shadow: 0 0 0 3px var(--input-focus-glow);
 }
 
+.logo-input-container {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-input-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-input-container label {
+    text-align: center;
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.logo-input-container input[type="file"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    border: 1.5px dashed var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-input-container input[type="file"]:hover {
+    border-color: var(--primary-color);
+}
+
+.logo-input-container input[type="file"]::-webkit-file-upload-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-right: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.logo-input-container input[type="file"]::file-selector-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-right: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.logo-input-container input[type="file"]::-webkit-file-upload-button:hover,
+.logo-input-container input[type="file"]::file-selector-button:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Style pour le texte "Aucun fichier choisi" */
+.logo-input-container input[type="file"]::before {
+    content: "Aucun fichier choisi";
+    color: var(--text-muted);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo-input-container input[type="file"]:valid::before {
+    content: none;
+}
+
 .button-container {
     display: flex;
     justify-content: center;
     width: 100%;
+    margin-top: 20px;
 }
 
 button {
@@ -225,7 +317,6 @@ button:disabled:hover i {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 40px;
     width: 100%;
 }
 
@@ -239,6 +330,7 @@ button:disabled:hover i {
     width: 100%;
     max-width: 340px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     transition: var(--transition);
@@ -263,8 +355,8 @@ button:disabled:hover i {
 #qrcode {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 100%;
 }
 
@@ -287,12 +379,13 @@ button:disabled:hover i {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    color: var(--primary-color);
+    gap: 10px;
+    color: var(--text-muted);
 }
 
 .qr-loader i {
     font-size: 2rem;
+    color: var(--primary-color);
 }
 
 .qr-loader span {
@@ -302,14 +395,12 @@ button:disabled:hover i {
 
 /* Style pour l'affichage de l'URL */
 .qr-url-display {
-    margin-top: 15px;
-    font-size: 0.85rem;
-    color: var(--text-light);
     text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    animation: fadeIn 0.5s ease;
+    margin-top: 15px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    width: 100%;
+    word-break: break-all;
 }
 
 .download-section {
@@ -328,18 +419,28 @@ button:disabled:hover i {
 
 /* Message de succès */
 .success-message {
-    animation: fadeInUp 0.3s ease, fadeOut 0.3s ease 2.7s;
-    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--success-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    animation: fadeInUp 0.3s ease;
 }
 
 @keyframes fadeInUp {
-    from { transform: translate(-50%, 20px); opacity: 0; }
-    to { transform: translate(-50%, 0); opacity: 1; }
-}
-
-@keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 #error-message {
@@ -358,11 +459,8 @@ button:disabled:hover i {
 
 footer {
     text-align: center;
-    margin-top: auto;
-    padding: 20px 0;
-    color: var(--text-light);
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+    margin-top: 40px;
+    width: 100%;
 }
 
 .credits {
@@ -388,17 +486,23 @@ footer {
 }
 
 @media (max-width: 480px) {
-    header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .input-section, #qrcode-container {
+    .container {
         padding: 20px 15px;
     }
     
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .input-section {
+        padding: 20px;
+    }
+    
+    #qrcode-container {
+        padding: 20px;
+    }
+    
     button {
-        padding: 12px 20px;
-        font-size: 15px;
         width: 100%;
     }
-}
+} 
