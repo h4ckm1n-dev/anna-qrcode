@@ -18,6 +18,10 @@
     --transition: all 0.3s ease;
     --input-focus-glow: rgba(93, 95, 239, 0.15);
     --success-color: #2ecc71;
+    --danger-color: #dc3545;
+    --danger-hover-color: #c82333;
+    --secondary-color: #6c757d;
+    --secondary-hover-color: #5a6268;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -578,4 +582,131 @@ footer {
         grid-template-columns: 1fr;
         gap: 15px;
     }
+}
+
+/* Styles pour les nouvelles options du logo */
+.logo-options {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.range-value {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Style pour le bouton de suppression du logo */
+.secondary-button {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.secondary-button:hover {
+    background-color: var(--danger-hover-color);
+}
+
+/* Styles pour la prévisualisation */
+.preview-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+}
+
+.preview-wrapper canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+/* Animation du spinner */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Style pour le slider */
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--border-color);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--primary-hover-color);
+}
+
+/* Ajustements pour les boutons */
+.button-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+#preview-btn {
+    background-color: var(--secondary-color);
+}
+
+#preview-btn:hover {
+    background-color: var(--secondary-hover-color);
 } 

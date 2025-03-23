@@ -75,6 +75,20 @@
                             <option value="H">Maximale (30%)</option>
                         </select>
                     </div>
+
+                    <!-- Nouvelles options pour le logo -->
+                    <div class="logo-options" style="display: none;">
+                        <div class="option-group">
+                            <label for="logo-circle-size"><i class="fas fa-circle"></i> Taille du cercle</label>
+                            <input type="range" id="logo-circle-size" min="20" max="40" value="30" step="1">
+                            <span class="range-value">30%</span>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label for="logo-circle-color"><i class="fas fa-paint-brush"></i> Couleur du cercle</label>
+                            <input type="color" id="logo-circle-color" value="#ffffff">
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="logo-input-container">
@@ -82,8 +96,25 @@
                     <div class="file-input-wrapper">
                         <input type="file" id="logo-input" accept="image/*">
                     </div>
+                    <button id="remove-logo" class="secondary-button" style="display: none;">
+                        <i class="fas fa-trash"></i> Supprimer le logo
+                    </button>
                 </div>
+
+                <div class="preview-container" style="display: none;">
+                    <div class="preview-qr">
+                        <div class="preview-wrapper">
+                            <canvas id="preview-canvas"></canvas>
+                            <div class="loading-overlay" style="display: none;">
+                                <div class="spinner"></div>
+                                <span>Traitement du logo...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="button-container">
+                    <button id="preview-btn"><i class="fas fa-eye"></i> Prévisualiser</button>
                     <button id="generate-btn"><i class="fas fa-magic"></i> Générer QR Code</button>
                 </div>
             </div>
