@@ -2,11 +2,10 @@
 let qrCodeInstance = null;
 let currentQRUrl = '';
 let currentLogo = null;
-let previewCanvas = null;
 
 // Fonction pour configurer les écouteurs d'événements des options
 function setupOptionListeners() {
-    ['qr-color', 'qr-bg-color', 'qr-size', 'qr-correction'].forEach(id => {
+    ['qr-color', 'qr-bg-color'].forEach(id => {
         const element = document.getElementById(id);
         if (element) {
             element.addEventListener('change', () => {
@@ -29,13 +28,7 @@ function initQRCodeGenerator() {
     const qrcodeContainer = document.getElementById('qrcode');
     const errorMessage = document.getElementById('error-message');
     
-    console.log('[DEBUG] Éléments DOM récupérés:', {
-        urlInput: !!urlInput,
-        generateBtn: !!generateBtn,
-        downloadBtn: !!downloadBtn,
-        qrcodeContainer: !!qrcodeContainer,
-        errorMessage: !!errorMessage
-    });
+    console.log('[DEBUG] Éléments DOM récupérés');
     
     // Vérifier si les éléments DOM existent
     if (!urlInput || !generateBtn || !downloadBtn || !qrcodeContainer) {
@@ -99,7 +92,21 @@ function initQRCodeGenerator() {
     console.log('[DEBUG] Initialisation terminée');
 }
 
-// Fonction pour montrer un indicateur de chargement
+// Fonction pour afficher/masquer les options du logo
+function toggleLogoOptions(show) {
+    const removeLogoBtn = document.getElementById('remove-logo');
+    if (removeLogoBtn) {
+        removeLogoBtn.style.display = show ? 'block' : 'none';
+    }
+}
+
+// Fonction pour afficher le spinner de chargement
+function toggleLoadingSpinner(show) {
+    const loadingOverlay = document.querySelector('.loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.style.display = show ? 'flex' : 'none';
+    }
+}
 
 // Fonction pour détecter les bords de l'image avec une meilleure précision
 function detectImageBounds(ctx, width, height) {
@@ -252,108 +259,9 @@ async function processLogo(imageFile) {
     });
 }
 
-// Fonction pour mettre à jour la valeur affichée du slider
-function updateRangeValue(value) {
-    const rangeValue = document.querySelector('.range-value');
-    if (rangeValue) {
-        rangeValue.textContent = `${value}%`;
-    }
-}
-
-// Fonction pour afficher/masquer les options du logo
-function toggleLogoOptions(show) {
-    const logoOptions = document.querySelector('.logo-options');
-    const removeLogoBtn = document.getElementById('remove-logo');
-    if (logoOptions) {
-        logoOptions.style.display = show ? 'block' : 'none';
-    }
-    if (removeLogoBtn) {
-        removeLogoBtn.style.display = show ? 'block' : 'none';
-    }
-}
-
-// Fonction pour afficher le spinner de chargement
-function toggleLoadingSpinner(show) {
-    const loadingOverlay = document.querySelector('.loading-overlay');
-    if (loadingOverlay) {
-        loadingOverlay.style.display = show ? 'flex' : 'none';
-    }
-}
-
-// Fonction pour prévisualiser le QR code
-async function previewQRCode() {
-    const urlInput = document.getElementById('url-input');
-    const url = urlInput.value.trim();
-    
-    if (!url) {
-        const errorMessage = document.getElementById('error-message');
-        if (errorMessage) {
-            errorMessage.textContent = 'Veuillez entrer une URL ou un texte';
-            errorMessage.style.display = 'block';
-        }
-        return;
-    }
-    
-    const previewContainer = document.querySelector('.preview-container');
-    previewContainer.style.display = 'block';
-    
-    toggleLoadingSpinner(true);
-    
-    try {
-        // Créer un QR code temporaire pour la prévisualisation
-        const tempContainer = document.createElement('div');
-        const qrSize = parseInt(document.getElementById('qr-size')?.value || 300);
-        
-        // Créer une instance temporaire de QR code avec la taille sélectionnée
-        new QRCode(tempContainer, {
-            text: url,
-            width: qrSize,
-            height: qrSize,
-            colorDark: document.getElementById('qr-color')?.value || '#000000',
-            colorLight: document.getElementById('qr-bg-color')?.value || '#ffffff',
-            correctLevel: QRCode.CorrectLevel.H
-        });
-        
-        // Attendre que le QR code soit généré
-        setTimeout(async () => {
-            const canvas = tempContainer.querySelector('canvas');
-            if (canvas && currentLogo) {
-                const logoCircleSize = document.getElementById('logo-circle-size');
-                const logoCircleColor = document.getElementById('logo-circle-color');
-                
-                const circleSize = logoCircleSize ? logoCircleSize.value : 30;
-                const circleColor = logoCircleColor ? logoCircleColor.value : '#ffffff';
-                
-                console.log('[DEBUG] Prévisualisation - Taille du cercle:', circleSize);
-                console.log('[DEBUG] Prévisualisation - Couleur du cercle:', circleColor);
-                
-                const finalCanvas = await applyLogoToQRCode(canvas, currentLogo, circleSize, circleColor);
-                previewCanvas = finalCanvas;
-                
-                const previewWrapper = document.querySelector('.preview-wrapper');
-                previewWrapper.innerHTML = '';
-                previewWrapper.appendChild(finalCanvas);
-            } else if (canvas) {
-                previewCanvas = canvas;
-                const previewWrapper = document.querySelector('.preview-wrapper');
-                previewWrapper.innerHTML = '';
-                previewWrapper.appendChild(canvas);
-            }
-            
-            toggleLoadingSpinner(false);
-        }, 100);
-        
-    } catch (error) {
-        console.error('Erreur lors de la prévisualisation:', error);
-        toggleLoadingSpinner(false);
-    }
-}
-
 // Fonction modifiée pour appliquer le logo au QR code
-async function applyLogoToQRCode(qrCanvas, logoData, circleSize = 30, circleColor = '#ffffff') {
+async function applyLogoToQRCode(qrCanvas, logoData) {
     console.log('[DEBUG] Début de l\'application du logo au QR code');
-    console.log('[DEBUG] Taille du cercle:', circleSize);
-    console.log('[DEBUG] Couleur du cercle:', circleColor);
     
     return new Promise((resolve) => {
         const canvas = document.createElement('canvas');
@@ -371,29 +279,30 @@ async function applyLogoToQRCode(qrCanvas, logoData, circleSize = 30, circleColo
         logo.onload = () => {
             console.log('[DEBUG] Logo chargé, application au QR code');
             
-            // Calculer la taille du logo (utiliser la taille personnalisée)
+            // Calculer la taille du logo (utiliser une taille fixe optimale)
             const size = Math.min(canvas.width, canvas.height);
-            const circleRadius = (size * parseInt(circleSize)) / 200; // Diviser par 200 car on veut que 100% soit la moitié de la taille
+            // Utiliser 35% comme taille optimale pour le cercle
+            const circleRadius = size * 0.175;
             console.log('[DEBUG] Rayon du cercle calculé:', circleRadius);
             
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
             
-            // Dessiner le fond du cercle avec la couleur personnalisée
+            // Dessiner le fond du cercle en blanc
             ctx.save();
             ctx.beginPath();
             ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2);
-            ctx.fillStyle = circleColor;
+            ctx.fillStyle = '#ffffff';
             ctx.fill();
             
-            // Dessiner une double bordure
-            ctx.strokeStyle = circleColor;
+            // Dessiner une double bordure blanche
+            ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = circleRadius * 0.1;
             ctx.stroke();
             
             ctx.beginPath();
             ctx.arc(centerX, centerY, circleRadius * 1.1, 0, Math.PI * 2);
-            ctx.strokeStyle = circleColor;
+            ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = circleRadius * 0.05;
             ctx.stroke();
             
@@ -494,13 +403,7 @@ async function downloadQRCode() {
         const qrCanvas = document.querySelector('#qrcode canvas');
         if (!qrCanvas) return;
         
-        const logoCircleSize = document.getElementById('logo-circle-size');
-        const logoCircleColor = document.getElementById('logo-circle-color');
-        
-        const circleSize = logoCircleSize ? logoCircleSize.value : 30;
-        const circleColor = logoCircleColor ? logoCircleColor.value : '#ffffff';
-        
-        canvas = await applyLogoToQRCode(qrCanvas, currentLogo, circleSize, circleColor);
+        canvas = await applyLogoToQRCode(qrCanvas, currentLogo);
     } else {
         // Si pas de logo, utiliser le canvas du QR code directement
         canvas = document.querySelector('#qrcode canvas');
@@ -540,11 +443,11 @@ function generateQRCode(url) {
         // Créer le QR code avec les options personnalisées
         const options = {
             text: url,
-            width: parseInt(document.getElementById('qr-size')?.value || 300),
-            height: parseInt(document.getElementById('qr-size')?.value || 300),
+            width: 500, // Utiliser toujours la taille maximale
+            height: 500, // Utiliser toujours la taille maximale
             colorDark: document.getElementById('qr-color')?.value || '#000000',
             colorLight: document.getElementById('qr-bg-color')?.value || '#ffffff',
-            correctLevel: QRCode.CorrectLevel.H,
+            correctLevel: QRCode.CorrectLevel.H, // Toujours utiliser le niveau maximal
         };
         
         console.log('[DEBUG] Options du QR code:', options);
@@ -562,13 +465,7 @@ function generateQRCode(url) {
                 try {
                     const canvas = qrcodeContainer.querySelector('canvas');
                     if (canvas) {
-                        const logoCircleSize = document.getElementById('logo-circle-size');
-                        const logoCircleColor = document.getElementById('logo-circle-color');
-                        
-                        const circleSize = logoCircleSize ? logoCircleSize.value : 30;
-                        const circleColor = logoCircleColor ? logoCircleColor.value : '#ffffff';
-                        
-                        const finalCanvas = await applyLogoToQRCode(canvas, currentLogo, circleSize, circleColor);
+                        const finalCanvas = await applyLogoToQRCode(canvas, currentLogo);
                         qrcodeContainer.innerHTML = '';
                         qrcodeContainer.appendChild(finalCanvas);
                     }
@@ -778,26 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadBtn.addEventListener('click', downloadQRCode);
     }
 
-    // Événements pour les nouvelles fonctionnalités
-    const logoCircleSize = document.getElementById('logo-circle-size');
-    if (logoCircleSize) {
-        logoCircleSize.addEventListener('input', (e) => {
-            updateRangeValue(e.target.value);
-            if (currentQRUrl && currentLogo) {
-                generateQRCode(currentQRUrl);
-            }
-        });
-    }
-    
-    const logoCircleColor = document.getElementById('logo-circle-color');
-    if (logoCircleColor) {
-        logoCircleColor.addEventListener('change', () => {
-            if (currentQRUrl && currentLogo) {
-                generateQRCode(currentQRUrl);
-            }
-        });
-    }
-    
+    // Événement pour le bouton de suppression du logo
     const removeLogoBtn = document.getElementById('remove-logo');
     if (removeLogoBtn) {
         removeLogoBtn.addEventListener('click', removeLogo);
